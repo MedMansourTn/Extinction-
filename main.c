@@ -1,51 +1,57 @@
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_mixer.h>
-#include "Ennemi.h"
-#include "Background.h"
+#include"enigme.h"
 
 int main()
-{
-SDL_Surface *ecran = NULL;
-int continuer =1;
-enemy ennemi;
-background back;
-mouvement mvt;
+{	
+	SDL_Init(SDL_INIT_EVERYTHING);
+	TTF_Init();
 
-int i=0,pos,alea;
-int posMin=100,posMax=600;
 
-SDL_Event event;
-//initialiser
-initialiser_ennemi(&ennemi);
-initialiser_background(&back);
-
-SDL_Init(SDL_INIT_VIDEO);
-
-Remplissage_animation (&mvt);
-
-ecran=SDL_SetVideoMode(1600,800,32,SDL_HWSURFACE);
-
-while (continuer)
-{		
-	SDL_PollEvent(&event);	
-	//affichage
-        affichage_background(ecran,&back);
-	//affichage_ennemi(ecran,&ennemi);
-	SDL_Flip(ecran);
-	Deplacement_annime (&mvt,&ennemi,&back,ecran,posMax,posMin);
-/*	pos=deplacement_alea (posmax,posmin);
-	(ennemi.posennemi.x)=pos;	
-	SDL_Flip(ecran);
-*/
-switch (event.type)
-{
-	case (SDL_QUIT) :
+	SDL_Surface *screen;
+	screen=SDL_SetVideoMode(1000,600,32,SDL_HWSURFACE | SDL_DOUBLEBUF);
+	SDL_Surface *image;
+	image=IMG_Load("bggg.png");
+	SDL_BlitSurface(image,NULL,screen,NULL);
+	SDL_Flip(screen);
+	
+	SDL_Event event;
+	int x=0;
+	struct enigme e;
+	while(x==0)
+		{		
+			SDL_Flip(screen);
+			while(SDL_PollEvent(&event))
+			{
+				switch(event.type)
+				{
+					case SDL_QUIT:
+						x=1;
+					break;
+					case SDL_KEYDOWN:
+					{
+						switch(event.key.keysym.sym)
+						{
+							
+							case SDLK_j://echap->quitter
+							{
+								e=go_enigme(e,screen,image);
+								x=1;
+							}break;	
+						}
+					}break;
+				}
+			}
+		}
+	SDL_FreeSurface(image);
+	SDL_FreeSurface(e.background);
+	SDL_FreeSurface(e.obj);
+	int i=0;
+	while (i<e.i)
 	{
-	continuer=0 ;
-	break;
+		SDL_FreeSurface(e.puzz[i]);
+		i++;
 	}
-}
-}
-return 0;
+	TTF_CloseFont(e.times);
+	TTF_Quit();
+	SDL_Quit();
+	return 0;					
 }
