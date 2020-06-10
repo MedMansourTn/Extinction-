@@ -1,7 +1,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_mixer.h>
-#include "Ennemi.h"
+#include "ennemie.h"
 #include "Background.h"
 
 int main()
