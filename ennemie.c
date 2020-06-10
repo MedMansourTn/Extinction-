@@ -2,7 +2,7 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_mixer.h>
 #include <time.h>
-#include "Ennemi.h"
+#include "ennemie.h"
 #include "Background.h"
 void initialiser_ennemi (enemy *ennemi)
 {
